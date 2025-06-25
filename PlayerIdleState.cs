@@ -10,7 +10,7 @@ public class PlayerIdleState : PlayerGroundedState
     {
         base.Enter();
 
-        rb.linearVelocity = new Vector2(0, 0);
+        player.ZeroVelocity();
     }
 
     public override void Update()
@@ -23,8 +23,14 @@ public class PlayerIdleState : PlayerGroundedState
         */
         
         //myself code 
-        if(xInput != 0 && (!player.IsWallDetected() || (player.IsWallDetected() && xInput != player.facingDir)))
-            stateMachine.ChangeState(player.moveState);
+        // if(xInput != 0 && (!player.IsWallDetected() || (player.IsWallDetected() && xInput != player.facingDir)))
+        //     stateMachine.ChangeState(player.moveState);
+
+        if (xInput == player.facingDir && player.IsWallDetected())
+            return;
+        
+        if (xInput != 0 && !player.isBusy)
+            stateMachine.ChangeState((player.moveState));
     }
 
     public override void Exit()
